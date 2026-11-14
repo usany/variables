@@ -1,0 +1,32 @@
+{
+  "name": "envman",
+  "version": "1.0.0",
+  "description": "Environment variables management CLI tool with secure storage",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "envman": "src/cli.js",
+    "envman-store": "src/cli-store.js"
+  },
+  "scripts": {
+    "start": "node src/cli.js",
+    "store": "node src/cli-store.js",
+    "example": "node examples/secure-storage.js",
+    "test": "node --test tests/**/*.test.js"
+  },
+  "keywords": [
+    "env",
+    "environment",
+    "cli",
+    "dotenv",
+    "secrets",
+    "encryption",
+    "security"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {}
+}

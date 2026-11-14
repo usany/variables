@@ -1,0 +1,62 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+.env.staging
+
+# Secrets database
+env-secrets.db
+env-secrets.db-*
+*.db
+
+# Backups and exports
+*.backup
+*.bak
+*-backup.*
+backup.enc
+secrets-backup.enc
+secrets-export.json
+
+# Encryption keys
+ENCRYPTION_KEY
+*.key
+*.pem
+*.crt
+
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.sublime-project
+.sublime-workspace
+
+# OS files
+Thumbs.db
+.DS_Store
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.cache
+
+# Testing
+coverage/
+.nyc_output/
+
+# Distribution
+dist/
+build/
