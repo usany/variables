@@ -256,10 +256,24 @@ MULTILINE="line1\nline2"
 - ✅ **AES-256-GCM encryption** for all secrets
 - ✅ **Audit logging** - track every access with who/what/when
 - ✅ **Integrity verification** using PBKDF2 hashes
-- ✅ **SQLite encryption** support
+- ✅ **Multiple database backends** - SQLite, PostgreSQL, Firebase Firestore
 - ✅ **Key management** - separate from encrypted data
 - ✅ **Export/import** with encryption
 - ✅ **Access control** - user tracking
+
+## 📊 Database Options
+
+Choose based on your needs:
+
+| Database | Use Case | Setup | Cost |
+|----------|----------|-------|------|
+| **SQLite** | Development, MVP | < 1 min | Free |
+| **SSH File** | Remote server storage | 5 min | Server cost |
+| **PostgreSQL** | Production, teams | 15 min | $20-100/mo |
+| **Firebase** | Fast deployment, scaling | 10 min | $0-50/mo |
+| **DynamoDB** | AWS ecosystem | 10 min | $50-200/mo |
+
+See [DB_OPTIONS.md](./DB_OPTIONS.md) for detailed comparison.
 
 ## Documentation
 
@@ -269,6 +283,10 @@ MULTILINE="line1\nline2"
 | [SAFE_STORAGE_GUIDE.md](./SAFE_STORAGE_GUIDE.md) | How secure storage works, why it matters |
 | [SECURITY.md](./SECURITY.md) | Detailed security practices and best practices |
 | [STORAGE_COMPARISON.md](./STORAGE_COMPARISON.md) | Compare .env files vs database vs external KMS |
+| [DB_OPTIONS.md](./DB_OPTIONS.md) | Database backends: SQLite, PostgreSQL, Firebase, DynamoDB |
+| [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) | Firebase Firestore setup and integration guide |
+| [SSH_SETUP.md](./SSH_SETUP.md) | SSH file storage on remote server (134.185.111.151) |
+| [DATABASE_COMPARISON.md](./DATABASE_COMPARISON.md) | Complete database comparison matrix |
 
 ## Development
 
