@@ -6,4 +6,4 @@
 - Commit message: `Auto-commit: update <path>`, ending with `Co-Authored-By: Claude Haiku 5.5 <noreply@anthropic.com>`.
 - Never commit `.env*`, `*.pem`, `*.key`, or files with "secret" or "credential" in the name.
 - Do not push. Pushing, amending, rebasing or force-pushing needs an explicit request.
-- Commit only the changed path. Leave other staged work (for example, the moves into `instructions/`) as it is.
+- Commit only the changed path, but do not leave other staged work behind. If other changes are staged, commit each one on its own with the same message format.
