@@ -11,6 +11,7 @@
   "scripts": {
     "start": "node src/cli.js",
     "store": "node src/cli-store.js",
+    "show": "node src/cli.js list",
     "example": "node examples/secure-storage.js",
     "example:firebase": "node examples/firebase-storage.js",
     "test": "node --test tests/**/*.test.js"
