@@ -226,7 +226,7 @@ Security:
   ✓ Integrity verification with PBKDF2 hashes
   ✓ Never logs secret values
 
-See SECURITY.md for detailed security documentation.
+See instructions/SECURITY.md for detailed security documentation.
 `);
 }
 
