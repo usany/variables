@@ -1,0 +1,217 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                   🔐 Environment Variables Management CLI                      ║
+║                          WITH SECURE STORAGE                                   ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+📋 PROJECT STRUCTURE
+────────────────────────────────────────────────────────────────────────────────
+
+/dotenv/
+├── src/
+│   ├── cli.js                  # File-based CLI
+│   ├── cli-store.js            # Secure storage CLI
+│   ├── manager.js              # .env file manager
+│   ├── storage/
+│   │   ├── db.js               # Encrypted database (AES-256-GCM)
+│   │   └── encryption.js       # Encryption utilities
+│   └── utils/
+│       ├── logger.js           # Colored output
+│       └── parser.js           # Argument parsing
+├── examples/
+│   └── secure-storage.js       # Usage examples
+├── README.md                   # Quick overview
+├── QUICKSTART_SECURE.md        # 5-minute setup guide
+├── SAFE_STORAGE_GUIDE.md       # How & why it works
+├── SECURITY.md                 # Best practices
+└── STORAGE_COMPARISON.md       # Feature comparison
+
+───────────────────────────────────────────────────────────────────────────────
+
+🚀 QUICK START - TWO OPTIONS
+────────────────────────────────────────────────────────────────────────────────
+
+OPTION 1: File-Based (Development)
+──────────────────────────────────────────────────────
+$ node src/cli.js set API_KEY "secret"
+$ node src/cli.js get API_KEY
+$ node src/cli.js list --format json
+$ node src/cli.js diff .env .env.example
+
+✓ Simple, fast, good for development
+✗ Not encrypted, not suitable for production
+
+OPTION 2: Secure Database (Production)
+──────────────────────────────────────────────────────
+$ export ENCRYPTION_KEY=$(node src/cli-store.js generate-key)
+$ node src/cli-store.js set API_KEY "secret"
+$ node src/cli-store.js get API_KEY
+$ node src/cli-store.js logs --all
+
+✓ AES-256-GCM encrypted, audit trails, production-ready
+✓ Compliance-ready (PCI, HIPAA, SOC 2, GDPR)
+✗ More setup required
+
+───────────────────────────────────────────────────────────────────────────────
+
+🔐 SECURITY FEATURES
+────────────────────────────────────────────────────────────────────────────────
+
+1. ENCRYPTION
+   • AES-256-GCM: Industry-standard encryption
+   • Unique IV: Each encryption has random initialization vector
+   • Auth tag: Detects tampering
+   
+2. KEY MANAGEMENT
+   • Separate from database: Database has no encryption key
+   • Integration with KMS: AWS Secrets Manager, Vault, Azure
+   • Never hardcoded: Environment or secure storage only
+   
+3. AUDIT LOGGING
+   • Every access logged: WHO, WHAT, WHEN, ACTION
+   • Compliance trail: PCI DSS, HIPAA, SOC 2, GDPR
+   • Investigation ready: Detect unauthorized access
+   
+4. INTEGRITY VERIFICATION
+   • PBKDF2 hashing: Detect secret modifications
+   • Verification method: Ensure values haven't drifted
+   
+───────────────────────────────────────────────────────────────────────────────
+
+📊 COMPARISON: When To Use What?
+────────────────────────────────────────────────────────────────────────────────
+
+┌─────────────────┬────────────┬──────────────┬─────────────────────┐
+│   Scenario      │ .env File  │ Secure DB    │ External KMS        │
+├─────────────────┼────────────┼──────────────┼─────────────────────┤
+│ Development     │     ✓      │      ✓       │         -           │
+│ Staging         │     ✗      │      ✓       │         ✓           │
+│ Production      │     ✗      │      ✓       │         ✓           │
+│ Compliance      │     ✗      │      ✓       │         ✓           │
+│ Complexity      │   Low      │   Medium     │       High          │
+│ Setup time      │  < 1 min   │   5-10 min   │      15-30 min      │
+└─────────────────┴────────────┴──────────────┴─────────────────────┘
+
+───────────────────────────────────────────────────────────────────────────────
+
+💻 COMMON COMMANDS
+────────────────────────────────────────────────────────────────────────────────
+
+FILE-BASED:
+  node src/cli.js set MYVAR "value"      # Store in .env
+  node src/cli.js get MYVAR              # Read from .env
+  node src/cli.js list                   # Show all variables
+  node src/cli.js validate .env          # Check syntax
+  node src/cli.js diff .env .env.example # Compare files
+
+SECURE STORAGE:
+  node src/cli-store.js generate-key     # Create encryption key
+  node src/cli-store.js set MYVAR "val"  # Encrypt and store
+  node src/cli-store.js get MYVAR        # Decrypt and retrieve
+  node src/cli-store.js logs MYVAR       # View access history
+  node src/cli-store.js export backup    # Export encrypted backup
+
+───────────────────────────────────────────────────────────────────────────────
+
+🔒 HOW SECURE STORAGE WORKS
+────────────────────────────────────────────────────────────────────────────────
+
+Step 1: Generate Encryption Key
+  → 32-byte random key (256-bit for AES-256)
+  
+Step 2: Store Encryption Key (NOT in database)
+  → AWS Secrets Manager
+  → HashiCorp Vault  
+  → Azure Key Vault
+  → Or environment variable
+
+Step 3: Encrypt Secret
+  Plaintext: "api-key-12345"
+       ↓
+  AES-256-GCM encryption
+       ↓
+  Encrypted: "iv:encrypted_data:auth_tag"
+
+Step 4: Store in Database
+  ┌──────────────────────────────┐
+  │ KEY          │ ENCRYPTED    │
+  │ API_KEY      │ iv:xxxx:tag  │  ← Can't read without key!
+  └──────────────────────────────┘
+
+Step 5: Log Access
+  ┌─────────────────────────────────────────┐
+  │ WHO    │ WHAT    │ WHEN       │ ACTION  │
+  │ alice  │ API_KEY │ 14:23:45   │ READ    │
+  │ bob    │ API_KEY │ 15:10:33   │ WRITE   │
+  └─────────────────────────────────────────┘
+
+Step 6: Retrieve Secret
+  Application needs API_KEY
+       ↓
+  Get ENCRYPTION_KEY from KMS
+       ↓
+  Query database
+       ↓
+  Decrypt with AES-256-GCM
+       ↓
+  Return plaintext
+       ↓
+  Log access: WHO=app, WHAT=API_KEY, WHEN=..., ACTION=READ
+
+───────────────────────────────────────────────────────────────────────────────
+
+✅ DO THIS
+────────────────────────────────────────────────────────────────────────────────
+
+✓ Store ENCRYPTION_KEY in KMS (AWS Secrets Manager, Vault, etc.)
+✓ Rotate encryption keys periodically
+✓ Monitor access logs for suspicious activity
+✓ Use AES-256-GCM (what we use)
+✓ Verify secret integrity regularly
+✓ Export for backup with encryption
+✓ Separate encryption from encrypted data
+
+───────────────────────────────────────────────────────────────────────────────
+
+❌ DON'T DO THIS
+────────────────────────────────────────────────────────────────────────────────
+
+✗ Store ENCRYPTION_KEY in database with encrypted data
+✗ Log secret values (logs key names only)
+✗ Hardcode secrets in code
+✗ Commit .env files to git (add to .gitignore)
+✗ Use weak encryption (AES-128 or ECB mode)
+✗ Ignore access logs
+✗ Use same key for everything
+
+───────────────────────────────────────────────────────────────────────────────
+
+📚 DOCUMENTATION
+────────────────────────────────────────────────────────────────────────────────
+
+START HERE:
+  → QUICKSTART_SECURE.md (5-minute setup)
+
+UNDERSTAND HOW IT WORKS:
+  → SAFE_STORAGE_GUIDE.md (visual diagrams, examples)
+
+SECURITY DETAILS:
+  → SECURITY.md (best practices, compliance)
+
+CHOOSE STORAGE METHOD:
+  → STORAGE_COMPARISON.md (.env vs DB vs KMS)
+
+───────────────────────────────────────────────────────────────────────────────
+
+🎯 NEXT STEPS
+────────────────────────────────────────────────────────────────────────────────
+
+1. Read QUICKSTART_SECURE.md for 5-minute setup
+2. Generate encryption key: node src/cli-store.js generate-key
+3. Store it in AWS Secrets Manager / Vault / environment
+4. Store your first secret: node src/cli-store.js set MY_KEY "value"
+5. View logs to confirm: node src/cli-store.js logs --all
+6. Read SECURITY.md for production best practices
+
+───────────────────────────────────────────────────────────────────────────────
+
+Questions? See the documentation files for detailed explanations.
