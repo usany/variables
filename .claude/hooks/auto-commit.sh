@@ -10,7 +10,7 @@ case "$f" in *.env*|*.pem|*.key|*secret*|*credential*) exit 0 ;; esac
 rel=$(python3 -c 'import os,sys; print(os.path.relpath(sys.argv[1], os.getcwd()))' "$f")
 git add -- "$rel" 2>/dev/null || exit 0
 git diff --cached --quiet -- "$rel" && exit 0
-git commit -q -m "Auto-commit: update $rel
+git commit -q -m "chore: update $rel
 
 Co-Authored-By: Claude Haiku 5.5 <noreply@anthropic.com>" -- "$rel" || true
 exit 0
