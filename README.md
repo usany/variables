@@ -33,7 +33,7 @@ chmod +x src/cli-store.js
 
 ## Quick Start - Secure Storage
 
-For safe production storage, see [QUICKSTART_SECURE.md](./QUICKSTART_SECURE.md):
+For safe production storage, see [QUICKSTART_SECURE.md](./instructions/QUICKSTART_SECURE.md):
 
 ```bash
 # Generate encryption key
@@ -273,20 +273,20 @@ Choose based on your needs:
 | **Firebase** | Fast deployment, scaling | 10 min | $0-50/mo |
 | **DynamoDB** | AWS ecosystem | 10 min | $50-200/mo |
 
-See [DB_OPTIONS.md](./DB_OPTIONS.md) for detailed comparison.
+See [DB_OPTIONS.md](./instructions/DB_OPTIONS.md) for detailed comparison.
 
 ## Documentation
 
 | Document | Purpose |
 |----------|---------|
-| [QUICKSTART_SECURE.md](./QUICKSTART_SECURE.md) | Get started with secure storage in 5 minutes |
-| [SAFE_STORAGE_GUIDE.md](./SAFE_STORAGE_GUIDE.md) | How secure storage works, why it matters |
-| [SECURITY.md](./SECURITY.md) | Detailed security practices and best practices |
-| [STORAGE_COMPARISON.md](./STORAGE_COMPARISON.md) | Compare .env files vs database vs external KMS |
-| [DB_OPTIONS.md](./DB_OPTIONS.md) | Database backends: SQLite, PostgreSQL, Firebase, DynamoDB |
-| [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) | Firebase Firestore setup and integration guide |
-| [SSH_SETUP.md](./SSH_SETUP.md) | SSH file storage on remote server (134.185.111.151) |
-| [DATABASE_COMPARISON.md](./DATABASE_COMPARISON.md) | Complete database comparison matrix |
+| [QUICKSTART_SECURE.md](./instructions/QUICKSTART_SECURE.md) | Get started with secure storage in 5 minutes |
+| [SAFE_STORAGE_GUIDE.md](./instructions/SAFE_STORAGE_GUIDE.md) | How secure storage works, why it matters |
+| [SECURITY.md](./instructions/SECURITY.md) | Detailed security practices and best practices |
+| [STORAGE_COMPARISON.md](./instructions/STORAGE_COMPARISON.md) | Compare .env files vs database vs external KMS |
+| [DB_OPTIONS.md](./instructions/DB_OPTIONS.md) | Database backends: SQLite, PostgreSQL, Firebase, DynamoDB |
+| [FIREBASE_SETUP.md](./instructions/FIREBASE_SETUP.md) | Firebase Firestore setup and integration guide |
+| [SSH_SETUP.md](./instructions/SSH_SETUP.md) | SSH file storage on remote server (134.185.111.151) |
+| [DATABASE_COMPARISON.md](./instructions/DATABASE_COMPARISON.md) | Complete database comparison matrix |
 
 ## Development
 
@@ -338,6 +338,6 @@ node src/cli-store.js logs --all  # Audit trail
 - ✓ Key compromise (separate key management)
 - ✓ Compliance violations (audit trail)
 
-See [SAFE_STORAGE_GUIDE.md](./SAFE_STORAGE_GUIDE.md) for details.
+See [SAFE_STORAGE_GUIDE.md](./instructions/SAFE_STORAGE_GUIDE.md) for details.
 
 ## Features
