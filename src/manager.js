@@ -36,6 +36,41 @@ export class EnvManager {
     return vars;
   }
 
+  // Parse .env file format, grouping variables under the comment that precedes them
+  static parseSections(content) {
+    const sections = [];
+    let current = { title: null, vars: [] };
+
+    for (const line of content.split(/\r?\n/)) {
+      const trimmed = line.trim();
+      if (!trimmed) continue;
+
+      if (trimmed.startsWith('#')) {
+        // A comment starts a new section, unless the current one has no variables yet
+        if (current.vars.length > 0 || current.title !== null) sections.push(current);
+        current = { title: trimmed.replace(/^#+\s*/, ''), vars: [] };
+        continue;
+      }
+
+      const eqIndex = trimmed.indexOf('=');
+      if (eqIndex === -1) continue;
+
+      const key = trimmed.slice(0, eqIndex).trim().replace(/^export\s+/, '');
+      let value = trimmed.slice(eqIndex + 1).trim();
+
+      // Remove quotes if present
+      if ((value.startsWith('"') && value.endsWith('"')) ||
+          (value.startsWith("'") && value.endsWith("'"))) {
+        value = value.slice(1, -1);
+      }
+
+      current.vars.push({ key, value });
+    }
+
+    if (current.vars.length > 0) sections.push(current);
+    return sections;
+  }
+
   // Format variables to .env file format
   static format(vars) {
     return Object.entries(vars)
