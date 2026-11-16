@@ -2,7 +2,7 @@
 
 import { parseArgs } from './utils/parser.js';
 import { EnvManager } from './manager.js';
-import { logError, logSuccess, logInfo, table, sectionTable } from './utils/logger.js';
+import { logError, logSuccess, table, sectionTable } from './utils/logger.js';
 
 async function main() {
   try {
