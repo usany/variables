@@ -11,7 +11,7 @@
   "scripts": {
     "start": "node src/cli.js",
     "store": "node src/cli-store.js",
-    "show": "node src/cli.js list",
+    "show": "node scripts/show-env.js",
     "fetch-vm-env": "node scripts/fetch-vm-env.js",
     "example":"node examples/secure-storage.js",
     "example:firebase": "node examples/firebase-storage.js",
