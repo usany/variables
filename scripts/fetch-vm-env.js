@@ -57,14 +57,8 @@ async function main() {
   await writeFile(outFile, content, { mode: 0o600 });
   await chmod(outFile, 0o600);
 
-  const keys = content
-    .split('\n')
-    .map((line) => line.trim())
-    .filter((line) => line && !line.startsWith('#') && line.includes('='))
-    .map((line) => line.slice(0, line.indexOf('=')));
-
-  console.log(`Saved ${keys.length} entries from ${user}@${host}:${remotePath} to ${outFile}`);
-  console.log(`Keys: ${keys.join(', ')}`);
+  console.log(`Saved ${user}@${host}:${remotePath} to ${outFile}`);
+  console.log(content.endsWith('\n') ? content : `${content}\n`);
 }
 
 main().catch((err) => {
