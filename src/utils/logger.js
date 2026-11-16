@@ -49,3 +49,30 @@ export function table(vars) {
     console.log(`${paddedKey}  ${paddedValue}`);
   }
 }
+
+// Table like table(), but each section is printed under its comment heading
+export function sectionTable(sections) {
+  const all = sections.flatMap((section) => section.vars);
+  if (all.length === 0) {
+    console.log('No variables found');
+    return;
+  }
+
+  // Use one width for every section so the columns line up
+  const maxKeyLength = Math.max(...all.map(v => v.key.length), 'KEY'.length);
+  const maxValueLength = Math.max(...all.map(v => v.value.length), 'VALUE'.length);
+
+  const keyHeader = 'KEY'.padEnd(maxKeyLength);
+  const valueHeader = 'VALUE'.padEnd(maxValueLength);
+  console.log(`${colors.cyan}${keyHeader}  ${valueHeader}${colors.reset}`);
+  console.log(`${'-'.repeat(maxKeyLength)}  ${'-'.repeat(maxValueLength)}`);
+
+  for (const section of sections) {
+    if (section.vars.length === 0) continue;
+    console.log('');
+    if (section.title) console.log(`${colors.gray}# ${section.title}${colors.reset}`);
+    for (const { key, value } of section.vars) {
+      console.log(`${key.padEnd(maxKeyLength)}  ${value.padEnd(maxValueLength)}`);
+    }
+  }
+}
