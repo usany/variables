@@ -58,7 +58,22 @@ async function main() {
   await chmod(outFile, 0o600);
 
   console.log(`Saved ${user}@${host}:${remotePath} to ${outFile}`);
-  console.log(content.endsWith('\n') ? content : `${content}\n`);
+  await showSections(outFile);
+}
+
+/**
+ * Print the saved file grouped by its comments, the same way `pnpm run show` does.
+ */
+function showSections(file) {
+  const showScript = path.join(path.dirname(fileURLToPath(import.meta.url)), 'show-env.js');
+  return new Promise((resolve, reject) => {
+    const child = spawn(process.execPath, [showScript, file], { stdio: 'inherit' });
+    child.on('error', reject);
+    child.on('close', (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(`show-env exited with code ${code}`));
+    });
+  });
 }
 
 main().catch((err) => {
