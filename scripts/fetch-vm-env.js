@@ -18,6 +18,7 @@ import { spawn } from 'node:child_process';
 import { mkdir, writeFile, chmod } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const host = process.env.VM_HOST || '134.185.111.151';
 const user = process.env.VM_USER || 'ubuntu';
