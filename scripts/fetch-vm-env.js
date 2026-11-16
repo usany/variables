@@ -12,7 +12,7 @@
  *   VM_ENV_PATH  default /home/ubuntu/.env
  *
  * The default output is outside the repo so the secrets are never committed.
- * The file is also printed to stdout as KEY=VALUE lines.
+ * The file is also printed to stdout grouped by its comment headers.
  */
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile, chmod } from 'node:fs/promises';
