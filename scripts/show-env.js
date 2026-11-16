@@ -6,7 +6,7 @@
  *   node scripts/show-env.js [envPath]
  *
  * Each `# comment` line starts a new section, and the KEY=VALUE lines
- * below it are listed under that heading. Values are masked by default.
+ * below it are listed under that heading, with their values.
  * Variables that appear before any comment go under "(no section)".
  */
 import { readFile } from 'node:fs/promises';
