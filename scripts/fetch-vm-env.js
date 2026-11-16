@@ -66,13 +66,13 @@ async function main() {
  * Print the saved file grouped by its comments, the same way `pnpm run show` does.
  */
 function showSections(file) {
-  const showScript = path.join(path.dirname(fileURLToPath(import.meta.url)), 'show-env.js');
+  const cliScript = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'src', 'cli.js');
   return new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, [showScript, file], { stdio: 'inherit' });
+    const child = spawn(process.execPath, [cliScript, 'list', '--file', file], { stdio: 'inherit' });
     child.on('error', reject);
     child.on('close', (code) => {
       if (code === 0) resolve();
-      else reject(new Error(`show-env exited with code ${code}`));
+      else reject(new Error(`envman list exited with code ${code}`));
     });
   });
 }
