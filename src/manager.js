@@ -116,6 +116,16 @@ export class EnvManager {
     return EnvManager.parse(content);
   }
 
+  // Same as list(), but keeps each variable's comment section
+  async listSections() {
+    if (!existsSync(this.file)) {
+      return [];
+    }
+
+    const content = readFileSync(this.file, 'utf-8');
+    return EnvManager.parseSections(content);
+  }
+
   async delete(key) {
     if (this.globalMode) {
       delete process.env[key];
