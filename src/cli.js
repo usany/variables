@@ -50,8 +50,14 @@ async function main() {
           Object.entries(filtered).forEach(([k, v]) => {
             console.log(`export ${k}="${v}"`);
           });
-        } else {
+        } else if (globalMode) {
           table(filtered);
+        } else {
+          const sections = (await manager.listSections()).map((section) => ({
+            ...section,
+            vars: section.vars.filter(({ key }) => !prefix || key.startsWith(prefix)),
+          }));
+          sectionTable(sections);
         }
         break;
 
