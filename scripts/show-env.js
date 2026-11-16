@@ -52,8 +52,7 @@ async function main() {
     console.log(`# ${section.title}`);
     const width = Math.max(0, ...section.vars.map((v) => v.key.length));
     for (const { key, value } of section.vars) {
-      const masked = '*'.repeat(Math.min(value.length, 12));
-      console.log(`  ${key.padEnd(width)}  ${masked}`);
+      console.log(`  ${key.padEnd(width)}  ${value}`);
     }
     console.log('');
   }
