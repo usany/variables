@@ -340,4 +340,12 @@ node src/cli-store.js logs --all  # Audit trail
 
 See [SAFE_STORAGE_GUIDE.md](./instructions/SAFE_STORAGE_GUIDE.md) for details.
 
-## Features
+## SSH Access
+
+Connect to the remote storage server with the private key (keep the key file private, mode `400`):
+
+```bash
+ssh -i ~/.ssh/id_rsa ubuntu@134.185.111.151
+```
+
+See [SSH_SETUP.md](./instructions/SSH_SETUP.md) for server setup details.
