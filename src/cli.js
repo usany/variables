@@ -3,6 +3,46 @@
 import { parseArgs } from './utils/parser.js';
 import { EnvManager } from './manager.js';
 import { logError, logSuccess, table, sectionTable } from './utils/logger.js';
+import { CONFIG_PATH, getSetting, setSetting, unsetSetting, listSettings } from './config.js';
+import { fetchVmEnv } from './vm.js';
+
+async function handleConfig(params) {
+  const [action, name, value] = params;
+  switch (action) {
+    case 'set':
+      if (!name || value === undefined) throw new Error('Usage: envman config set <setting> <value>');
+      setSetting(name, value);
+      logSuccess(`Set ${name} = ${value} (${CONFIG_PATH})`);
+      break;
+    case 'get': {
+      if (!name) throw new Error('Usage: envman config get <setting>');
+      const current = getSetting(name);
+      console.log(current ?? '');
+      break;
+    }
+    case 'unset':
+      if (!name) throw new Error('Usage: envman config unset <setting>');
+      unsetSetting(name);
+      logSuccess(`Removed ${name}`);
+      break;
+    case 'list':
+    case undefined:
+      console.log(`Config file: ${CONFIG_PATH}`);
+      listSettings().forEach(({ name: n, value: v }) => console.log(`  ${n.padEnd(14)} ${v ?? '(not set)'}`));
+      break;
+    default:
+      throw new Error('Usage: envman config <set|get|unset|list> [setting] [value]');
+  }
+}
+
+async function handleVm(params) {
+  const [action, outFile] = params;
+  if (action !== 'fetch') throw new Error('Usage: envman vm fetch [outputPath]');
+  const { settings, file } = await fetchVmEnv(outFile);
+  logSuccess(`Saved ${settings.user}@${settings.host}:${settings.envPath} to ${file}`);
+  const sections = await new EnvManager(file).listSections();
+  sectionTable(sections);
+}
 
 async function main() {
   try {
@@ -18,6 +58,16 @@ async function main() {
 
     if (args.options.version || args.options.v) {
       console.log('envman 1.0.0');
+      return;
+    }
+
+    if (args.command === 'config') {
+      await handleConfig(args.params);
+      return;
+    }
+
+    if (args.command === 'vm') {
+      await handleVm(args.params);
       return;
     }
 
@@ -153,6 +203,8 @@ Commands:
   merge <file1> <file2>      Merge two files
   diff <file1> <file2>       Compare two files
   export                     Export variables in shell format
+  config set|get|unset|list  Manage VM/SSH settings (vm.host, vm.user, vm.key, vm.env-path)
+  vm fetch [outputPath]      Download the remote env file over SSH
   help                       Show this help message
 
 Options:
@@ -171,6 +223,10 @@ Examples:
   envman validate .env
   envman diff .env .env.example
   envman export | bash
+  envman config set vm.host 203.0.113.10
+  envman config set vm.user ubuntu
+  envman config set vm.key ~/.ssh/my_server_key
+  envman vm fetch
 `);
 }
 
