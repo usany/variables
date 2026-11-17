@@ -8,11 +8,16 @@
     "envman": "src/cli.js",
     "envman-store": "src/cli-store.js"
   },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "start": "node src/cli.js",
     "store": "node src/cli-store.js",
     "show": "node src/cli.js list",
-    "vm": "node scripts/fetch-vm-env.js",
+    "vm": "node src/cli.js vm fetch",
     "example":"node examples/secure-storage.js",
     "example:firebase": "node examples/firebase-storage.js",
     "test": "node --test tests/**/*.test.js"
