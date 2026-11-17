@@ -1,6 +1,7 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import { SecureEncryption } from './encryption.js';
+import { resolveVmSettings } from '../config.js';
 
 const execAsync = promisify(exec);
 
@@ -10,10 +11,11 @@ const execAsync = promisify(exec);
  * Stores encrypted database file on remote server via SSH
  * 
  * Setup:
- * export SSH_HOST="134.185.111.151"
- * export SSH_USER="ubuntu"
- * export SSH_KEY="/Users/user/.ssh/id_rsa"
- * export REMOTE_DB_PATH="/home/ubuntu/env-secrets.json"
+ * Settings come from `envman config set vm.host|vm.user|vm.key`, or override with:
+ * export SSH_HOST="<your-server>"
+ * export SSH_USER="<user>"
+ * export SSH_KEY="~/.ssh/id_rsa"
+ * export REMOTE_DB_PATH="~/env-secrets.json"
  */
 export class SSHFileDB {
   constructor(encryptionKey, sshConfig = {}) {
@@ -23,13 +25,18 @@ export class SSHFileDB {
 
     this.encryption = new SecureEncryption(encryptionKey);
     
-    // SSH Configuration
+    // SSH Configuration: explicit options > SSH_* env vars > `envman config` settings
+    const vm = resolveVmSettings({
+      host: sshConfig.host || process.env.SSH_HOST,
+      user: sshConfig.user || process.env.SSH_USER,
+      keyPath: sshConfig.keyPath || process.env.SSH_KEY,
+    });
     this.ssh = {
-      host: sshConfig.host || process.env.SSH_HOST || '134.185.111.151',
-      user: sshConfig.user || process.env.SSH_USER || 'ubuntu',
-      keyPath: sshConfig.keyPath || process.env.SSH_KEY || '/Users/user/.ssh/id_rsa',
+      host: vm.host,
+      user: vm.user,
+      keyPath: vm.keyPath,
       port: sshConfig.port || process.env.SSH_PORT || 22,
-      remoteDbPath: sshConfig.remoteDbPath || process.env.REMOTE_DB_PATH || '/home/ubuntu/env-secrets.json'
+      remoteDbPath: sshConfig.remoteDbPath || process.env.REMOTE_DB_PATH || '~/env-secrets.json'
     };
 
     // Local cache
