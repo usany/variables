@@ -31,8 +31,5 @@
   ],
   "author": "",
   "license": "MIT",
-  "dependencies": {
-    "sqlite3": "^5.1.6"
-  },
   "devDependencies": {}
 }
