@@ -28,26 +28,6 @@ A comprehensive Node.js CLI tool for managing environment variables safely. Feat
 npm install
 npm install sqlite3  # For secure storage
 chmod +x src/cli.js
-chmod +x src/cli-store.js
-```
-
-## Quick Start - Secure Storage
-
-For safe production storage, see [QUICKSTART_SECURE.md](./instructions/QUICKSTART_SECURE.md):
-
-```bash
-# Generate encryption key
-node src/cli-store.js generate-key
-
-# Store a secret
-export ENCRYPTION_KEY="your-key-here"
-node src/cli-store.js set API_KEY "secret-value" --description "API Key"
-
-# Retrieve it
-node src/cli-store.js get API_KEY
-
-# View access logs
-node src/cli-store.js logs --all
 ```
 
 ## Usage
@@ -294,9 +274,6 @@ See [DB_OPTIONS.md](./instructions/DB_OPTIONS.md) for detailed comparison.
 # Run file-based CLI
 node src/cli.js --help
 
-# Run secure storage CLI
-node src/cli-store.js --help
-
 # Run example
 node examples/secure-storage.js
 
@@ -319,14 +296,6 @@ Development          →  Staging/Production      →  Enterprise
 # Use .env files
 node src/cli.js set API_KEY "dev-key"
 node src/cli.js list
-```
-
-### Production (secure & audited)
-```bash
-# Use encrypted database
-export ENCRYPTION_KEY=$(aws secretsmanager get-secret-value ...)
-node src/cli-store.js set API_KEY "prod-key" --user automation
-node src/cli-store.js logs --all  # Audit trail
 ```
 
 ## Security Summary
